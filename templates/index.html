@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>AI出海热潮中，海外用户如何看待中国大模型？</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    img.preview { cursor: zoom-in; transition: 0.3s ease; }
+    .section-title { margin-top: 2.5rem; margin-bottom: 1rem; border-bottom: 2px solid #ccc; padding-bottom: 0.3rem; }
+    .card img { max-height: 300px; object-fit: contain; }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+  <h1 class="text-center mb-4">AI出海热潮中，海外用户如何看待中国大模型？</h1>
+
+  <!-- Section: 引言 -->
+  <h2 class="section-title">📝 引言</h2>
+  <p>本项目聚焦社交媒体平台（以 Twitter 为代表），围绕“DeepSeek”“DeepSeek-R1""DeepSeek-R2""Qwen""Qwen2.5""Qwen3"“ChinaAI”等关键词，爬取并分析海外用户对国产大模型的真实评价。项目选取 DeepSeek 与通义千问两个典型国产模型，梳理海外用户在使用过程中表达的态度与观点。
+项目设计主要包括四个阶段：数据采集、数据清洗、数据分析与可视化、网页展示。在数据分析与可视化环节，本项目结合多种文本分析方法——包括词频统计、聚类分析、情绪分析以及关键词共现网络分析，力图从内容层面深入理解海外用户对国产大模型的评价倾向与表达方式，从而为相关技术传播与国际化路径提供参考。
+</p>
+
+  <!-- Section: 词频分析 -->
+  <h2 class="section-title">☁️ 词频分析</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for name, desc in [
+      ('chinaai', '体现对中国AI整体技术印象，关键词多与国家发展、未来创新相关。中国国产AI的整体形象以国家标签为核心，多以国家或地缘科技力量为框架进行表述'),
+      ('deepseek', '用户讨论集中于产品能力及对比ChatGPT、Gemini等国际模型。用户常以对比视角评价DeepSeek的技术水准与实用性。'),
+      ('deepseek_r1', '高频词反映了用户对R1版本的逻辑推理能力的兴趣。'),
+      ('deepseek_r2', '强调了R2模型在工具调用与前端应用方面的优势。'),
+      ('qwen', '用户聚焦模型语言处理与中文表现。而在通义千问（Qwen）上，其在常被与国外竞品做对比的同时也与DeepSeek相对比。'),
+      ('qwen2.5', '对2.5版本关注点集中于多语言支持与API开放。'),
+      ('qwen3', '最新版本引发对升级内容与推理性能的热议。')
+    ] %}
+    <div class="col">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='freq_' + name + '.png') }}" class="card-img-top preview" data-bs-toggle="modal" data-bs-target="#imgModal" data-img="freq_{{ name }}.png">
+        <div class="card-body">
+          <h5 class="card-title">{{ name|upper }} 词云图</h5>
+          <p class="card-text">{{ desc }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Section: 共现网络 -->
+  <h2 class="section-title">🔗 关键词共现网络</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for name, desc in [
+      ('chinaai', 'ChinaAI共现图反映国家级叙事下关键词之间的系统联结。关键词“ChinaAI”频繁与“tech”、“innovation”、“future”、“model”等词语共同出现，表明海外用户在宏观层面多将中国AI与技术前沿、创新能力和未来发展等概念相联系，体现出一种以国家形象为核心的语义聚焦。'),
+      ('deepseek', 'DeepSeek语义网络围绕模型对比与应用体验展开。在“ChinaAI”与“Qwen”的共现网络图中，“DeepSeek”这一词汇均处于核心位置，且与多个高频关键词存在密集连接关系。这不仅表明DeepSeek作为国产大模型的重要代表，具有较高的海外知名度与讨论度，也说明其在当前中国AI技术产品矩阵中占据着较为关键的传播位置。'),
+      ('qwen', 'Qwen共现网络结构中呈现较高的聚焦度与功能导向。用户在讨论中更聚焦于模型迭代、更新节奏和功能优化等维度。')
+    ] %}
+    <div class="col">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='cooccur_' + name + '.png') }}" class="card-img-top preview" data-bs-toggle="modal" data-bs-target="#imgModal" data-img="cooccur_{{ name }}.png">
+        <div class="card-body">
+          <h5 class="card-title">{{ name|upper }} 共现网络图</h5>
+          <p class="card-text">{{ desc }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <h2 class="section-title">🧩 聚类分析</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for name, desc in [
+    ('chinaai', 'ChinaAI相关聚类显示海外用户在国家层面主要聚焦于中国AI的全球地位、政策支持及未来趋势，体现出一种从国家战略角度的宏观关切。'),
+    ('deepseek', 'DeepSeek聚类主题多集中在模型性能与使用反馈方面，用户倾向于从产品维度评价其实用性与创新程度。'),
+    ('qwen', '通义千问（Qwen）聚类结果表明用户关注更新节奏、模型兼容性及与国外竞品的差异点，讨论呈现出高度聚焦。')
+  ] %}
+  <div class="col">
+    <div class="card h-100">
+      <img src="{{ url_for('static', filename='cluster_' + name + '.png') }}" class="card-img-top preview" data-bs-toggle="modal" data-bs-target="#imgModal" data-img="cluster_{{ name }}.png">
+      <div class="card-body">
+        <h5 class="card-title">{{ name|upper }} 聚类图</h5>
+        <p class="card-text">{{ desc }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<h2 class="section-title">📊 情感分析</h2>
+<p>情感识别结果表明，不同关键词下推文存在情绪分布差异。以下展示 ChinaAI、DeepSeek 与 Qwen 的情绪数量与情绪强度得分：</p>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for name in ['chinaai', 'deepseek', 'qwen'] %}
+  {% set explanation = {
+    'chinaai': '正面和负面帖文得分绝对值差距较小，推特用户在针对ChinaAI上的讨论相对来说较为客观。',
+    'deepseek': '正面情绪得分较高，较为强烈，，突出用户对功能性、性能的积极反馈。',
+    'qwen': '总体态度呈正面，但负面情绪得分相对来说也较高，主要集中于版本稳定性和功能一致性的抱怨。'
+  }[name] %}
+    {% for t in ['count', 'score'] %}
+    <div class="col">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='sentiment_' + t + '_' + name + '.png') }}"
+             class="card-img-top preview"
+             data-bs-toggle="modal"
+             data-bs-target="#imgModal"
+             data-img="sentiment_{{ t }}_{{ name }}.png">
+        <div class="card-body">
+          <h5 class="card-title">{{ name|upper }} 情绪{{ '数量' if t == 'count' else '得分' }}图</h5>
+          <p class="card-text">
+            {% if t == 'count' %}
+              展示 {{ name|upper }} 推文中正面、中性与负面情绪的分布情况。ChinaAI作为一个整体概念，中性评价数量最多。海外用户在整体上对“中国AI”概念的认知与对具体产品的态度之间存在一定的分化倾向，国产大模型在“走出去”过程中仍面临品牌与信任的结构性挑战。
+            {% else %}
+              平均得分反映整体情绪倾向：{{ explanation }}
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  {% endfor %}
+
+  <!-- 情绪共现图 -->
+  <div class="col">
+    <div class="card h-100">
+      <img src="{{ url_for('static', filename='sentiment_corr_emotion_interact.png') }}"
+           class="card-img-top preview"
+           data-bs-toggle="modal"
+           data-bs-target="#imgModal"
+           data-img="sentiment_corr_emotion_interact.png">
+      <div class="card-body">
+        <h5 class="card-title">情绪与互动共现图</h5>
+        <p class="card-text">
+          展示不同情绪类型（正/负）与互动指标（点赞、评论、浏览）之间的关系，揭示“情绪传播效应”机制。图中可以看出，中性帖文的转发量以及点赞量都高于正面帖文和负面帖文，同时负面帖文的平均浏览量显著高于其他两类帖文。
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Section: 总结 -->
+  <h2 class="section-title">📌 总结与洞察</h2>
+  <p>分析显示，海外用户对“中国AI”话题较为中性，但在具体产品如 DeepSeek、Qwen 上展现出更强烈的情绪反应，尤其聚焦于功能差异与模型迭代。DeepSeek 在多个分析图中位居语义核心，表明其在国产大模型出海中具有突出的代表性。在具体的话题维度上，涵盖了产品发布、使用评价、应用对比以及版本更新等产品维度，也包括AI国际格局等宏观维度。</p>
+  <p>通过对推特上言论的分析，海外用户对于国产AI模型的评价和情感总体上趋于正面。在海外市场，国产大模型已从“概念关注”逐渐走向“技术评价”与“用户应用”层面。但是，海外用户对国产AI模型的评价仍受限于国家形象的既有认知，体现了“国家想象”与“产品评价”之间的关注差异。</p>
+  <p>国产AI模型“出海”之路在产品能力之外，还需克服国家形象、文化接受度与信任结构等软性壁垒。要实现真正意义上的全球化拓展，不仅要不断提升产品质量和迭代效率，更要注重品牌塑造、文化适配与国际化治理机制的完善，在“技术出海”的同时实现“认知出海”和“信任出海”。</p>
+</div>
+
+<!-- 图片预览 Modal -->
+<div class="modal fade" id="imgModal" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <img src="" class="img-fluid" id="modalImage">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('imgModal');
+  const modalImg = document.getElementById('modalImage');
+  document.querySelectorAll('img.preview').forEach(img => {
+    img.addEventListener('click', () => {
+      const filename = img.getAttribute('data-img');
+      modalImg.src = '/static/' + filename;
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
